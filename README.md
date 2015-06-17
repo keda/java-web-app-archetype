@@ -46,20 +46,12 @@ springmvc mybatis maven archetype
 ###默认地址: http://localhost:8080/${artifactId}
 	
 ###命令讲解:
-mvn archetype:generate 
+mvn archetype:generate   
 	-DarchetypeGroupId=com.amssy -------------------骨架项目groupId			   |  
-	
 	-DarchetypeArtifactId=amssy-web-archetype ------骨架项目artifactId                 |不要改变  
-	
 	-DarchetypeVersion=0.0.1-SNAPSHOT --------------骨架项目version                    |  
-	
 	-DarchetypeCatalog=local -----------------------在本地仓库中读取骨架项目           |------------  
-	
 	-DgroupId=com.amssy ----------------------------你创建的项目的groupId              |  
-	
 	-DartifactId=yunying ---------------------------你创建的项目的artifactId           |任意的  
-	
 	-Dversion=0.0.1 --------------------------------你创建的项目的version              |符合自己  
-	
 	-Dpackage=com.amssy.yunying --------------------你的项目的package                  |的需求即可  
-	
