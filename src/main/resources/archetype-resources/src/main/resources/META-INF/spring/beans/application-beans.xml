@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans
+        xmlns:beans="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+                        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- Configuration related beans -->
+    <beans:import resource="config-beans.xml"/>
+
+    <!-- i18n related beans -->
+    <beans:import resource="i18n-beans.xml"/>
+
+    <!-- Datasource beans -->
+    <beans:import resource="datasource-beans.xml"/>
+
+    <!-- Add other bean imports for service definitions etc here -->
+    
+    <!-- Redis related beans -->
+    <beans:import resource="redis-beans.xml"/>
+    
+    <!-- Mail related beans -->
+    <beans:import resource="mail-beans.xml"/>
+    
+    <!-- Httpclient related beans -->
+    <beans:import resource="httpclient-beans.xml"/>
+</beans:beans>
+

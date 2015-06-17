@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>工作台-系统后台</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/resource/lib/css/bootstrap.min.css" th:href="@{${ session.resources }+'/lib/css/bootstrap.min.css'}" rel="stylesheet">
+    <link href="/resource/lib/css/font-awesome.min.css" th:href="@{${ session.resources }+'/lib/css/font-awesome.min.css'}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/resource/css/dashboard.css" th:href="@{${ session.resources }+'/css/dashboard.css'}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div th:replace="base/navbar :: navbar">
+    	<nav class="navbar navbar-inverse navbar-fixed-top">
+	      <div class="container-fluid">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="navbar-brand" href="#">Project name</a>
+	        </div>
+	        <div id="navbar" class="navbar-collapse collapse">
+	          <ul class="nav navbar-nav navbar-right">
+	            <!-- <li><a href="#">Dashboard</a></li>
+	            <li><a href="#">Settings</a></li>
+	            <li><a href="#">Profile</a></li> -->
+	            <li><a href="#">Help</a></li>
+	          </ul>
+	          <!-- <form class="navbar-form navbar-right">
+	            <input type="text" class="form-control" placeholder="Search...">
+	          </form> -->
+	        </div>
+	      </div>
+	    </nav>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div th:replace="base/sidebar-menu :: sidebar-menu" class="col-sm-3 col-md-2 sidebar">
+          	<div class="row">
+				<div class="span12">
+					<div class="row-fluid">
+						<div class="offset1 span2">
+							<!--Sidebar content-->
+							<div class="sidebar-menu">
+								<a href="#userMeun" class="nav-header menu-first collapsed" data-toggle="collapse"><i class="icon-user-md icon-large"></i> 用户管理</a>
+								<ul id="userMeun" class="nav nav-list collapse in menu-second">
+									<li><a href="#"><i class="icon-user"></i> 增加用户</a></li>
+									<li><a href="#"><i class="icon-edit"></i> 修改用户</a></li>
+									<li><a href="#"><i class="icon-trash"></i> 删除用户</a></li>
+									<li><a href="#"><i class="icon-list"></i> 用户列表</a></li>
+									
+								</ul>
+								<a href="#articleMenu" class="nav-header menu-first collapsed" data-toggle="collapse"><i class="icon-book icon-large"></i> 文章管理</a>
+								<ul id="articleMenu" class="nav nav-list collapse in menu-second">
+									<li><a href="#"><i class="icon-pencil"></i> 添加文章</a></li>
+									<li><a href="#"><i class="icon-list-alt"></i> 文章列表</a></li>
+								</ul>
+							</div>
+
+						</div>
+					</div>
+				</div>	
+			</div>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Dashboard</h1>
+                         好递财务清算系统API<a target='_blank' href='http://hudson.amssy.com/hudson3/job/pay_apidoc/build?delay=0sec'>如果发现文档不是最新的请点击</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="app/base/js/base.js" th:src="@{${session.resources} + '/app/base/js/base.js'}"></script>
+  </body>
+</html>

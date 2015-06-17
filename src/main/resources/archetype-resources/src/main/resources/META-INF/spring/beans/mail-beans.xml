@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+	<!-- 
+	<bean id="smtpAuthenticator" class="${package}.mail.SmtpAuthenticator">
+		<constructor-arg value="${mail.username}"></constructor-arg>
+		<constructor-arg value="${mail.password}"></constructor-arg>
+	</bean>
+	<bean id="mailSession" class="javax.mail.Session" factory-method="getInstance">
+		<constructor-arg>
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.timeout">${mail.smtp.timeout}</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</constructor-arg>
+		<constructor-arg ref="smtpAuthenticator" />
+	</bean>
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${mail.host}" />
+		<property name="port" value="${mail.port}" />
+		<property name="session" ref="mailSession" />
+	</bean> 
+	 -->
+	 
+	 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${mail.host}" />
+		<property name="username" value="${mail.username}" />
+		<property name="password" value="${mail.password}" />
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.timeout">30000</prop>
+				<prop key="mail.debug">${mail.debug}</prop>
+			</props>
+		</property>
+	</bean> 
+	
+	<bean id="simpleMailMessage" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from">
+			<value>${mail.default.from}</value>
+		</property>
+	</bean>
+	
+	<bean id="emailService" class="${package}.mail.EmailService"/>
+	
+	<!-- THYMELEAF: Template Resolver for email templates -->
+	<bean id="emailTemplateResolver" class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
+	  <property name="prefix" value="mail/" />
+	  <property name="templateMode" value="HTML5" />
+	  <property name="characterEncoding" value="UTF-8" />
+	  <property name="order" value="1" />
+	</bean>
+	 
+	<!-- THYMELEAF: Template Resolver for webapp pages   -->
+	<!-- (we would not need this if our app was not web) -->
+	<!-- <bean id="webTemplateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+	  <property name="prefix" value="/WEB-INF/mailtemplate/" />
+	  <property name="templateMode" value="HTML5" />
+	  <property name="characterEncoding" value="UTF-8" />
+	  <property name="order" value="2" />
+	</bean> -->
+	 
+	<!-- THYMELEAF: Template Engine (Spring3-specific version) -->
+	<bean id="templateEngine4Mail" class="org.thymeleaf.spring3.SpringTemplateEngine">
+	  <property name="templateResolvers">
+	    <set>
+	      <ref bean="emailTemplateResolver" />
+	      <!-- <ref bean="webTemplateResolver" /> -->
+	    </set>
+	  </property>
+	</bean>
+	 
+	<!-- THYMELEAF: View Resolver - implementation of Spring's ViewResolver interface -->
+	<!-- (we would not need this if our app was not web)                              -->
+	<bean id="viewResolver" class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
+	  <property name="templateEngine" ref="templateEngine4Mail" />
+	  <property name="characterEncoding" value="UTF-8" />
+	</bean>
+
+</beans>
