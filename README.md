@@ -17,7 +17,7 @@ springmvc mybatis maven archetype
 * 模板引擎使用的是 thymeleaf
 具体配置在生成后的项目的下面这个目录中：src/main/resources/META-INF/spring/beans
 
-**strong**要求：在本地配置MAVEN环境
+**要求：在本地配置MAVEN环境**
 
 ###下载amssy-web-archtype.zip, 解压到任意目录下面**/amssy-web-archtype
 
@@ -47,11 +47,19 @@ springmvc mybatis maven archetype
 	
 ###命令讲解:
 mvn archetype:generate 
-	-DarchetypeGroupId=com.amssy -------------------骨架项目groupId			   |
-	-DarchetypeArtifactId=amssy-web-archetype ------骨架项目artifactId         |不要改变
-	-DarchetypeVersion=0.0.1-SNAPSHOT --------------骨架项目version            |
-	-DarchetypeCatalog=local -----------------------在本地仓库中读取骨架项目   |------------
-	-DgroupId=com.amssy ----------------------------你创建的项目的groupId      |
-	-DartifactId=yunying ---------------------------你创建的项目的artifactId   |任意的
-	-Dversion=0.0.1 --------------------------------你创建的项目的version      |符合自己
-	-Dpackage=com.amssy.yunying	--------------------你的项目的package          |的需求即可
+	-DarchetypeGroupId=com.amssy -------------------骨架项目groupId			   |  
+	
+	-DarchetypeArtifactId=amssy-web-archetype ------骨架项目artifactId                 |不要改变  
+	
+	-DarchetypeVersion=0.0.1-SNAPSHOT --------------骨架项目version                    |  
+	
+	-DarchetypeCatalog=local -----------------------在本地仓库中读取骨架项目           |------------  
+	
+	-DgroupId=com.amssy ----------------------------你创建的项目的groupId              |  
+	
+	-DartifactId=yunying ---------------------------你创建的项目的artifactId           |任意的  
+	
+	-Dversion=0.0.1 --------------------------------你创建的项目的version              |符合自己  
+	
+	-Dpackage=com.amssy.yunying --------------------你的项目的package                  |的需求即可  
+	
