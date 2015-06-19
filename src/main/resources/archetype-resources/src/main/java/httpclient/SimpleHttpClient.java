@@ -31,12 +31,13 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SimpleHttpClient {
 	
@@ -69,6 +70,14 @@ public class SimpleHttpClient {
 		return client;
 	}
 	
+	public ObjectMapper getObjectMapper() {
+		return om;
+	}
+
+	public void setObjectMapper(ObjectMapper objectMapper) {
+		this.om = objectMapper;
+	}
+
 	public SimpleHttpClient(String url, CloseableHttpClient client) {
 		this.url = url;
 		this.client = client;

@@ -26,9 +26,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ElecNumHttpClient {
     
@@ -43,7 +44,6 @@ public class ElecNumHttpClient {
     private String parternId ;
     private String clientId ;
     private String customerId ;
-    private ObjectMapper om = new ObjectMapper();
     
     public CloseableHttpClient getClient() {
         return client;

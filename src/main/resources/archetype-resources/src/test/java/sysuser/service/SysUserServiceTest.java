@@ -3,9 +3,8 @@ package ${package}.sysuser.service;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.util.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,25 +14,20 @@ import junit.framework.Assert;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.amssy.yunying.AppTest;
+import com.amssy.yunying.sysuser.dto.UserInfo;
+import com.amssy.yunying.utils.IdWorker;
+import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
-import ${package}.AppTest;
-import ${package}.sysuser.dto.UserInfo;
-import ${package}.utils.IdWorker;
 
 public class SysUserServiceTest extends AppTest{
 	private final Logger logger = LoggerFactory.getLogger(getClass());
