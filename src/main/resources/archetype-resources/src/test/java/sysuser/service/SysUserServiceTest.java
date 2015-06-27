@@ -20,9 +20,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 
-import com.amssy.yunying.AppTest;
-import com.amssy.yunying.sysuser.dto.UserInfo;
-import com.amssy.yunying.utils.IdWorker;
+import ${package}.AppTest;
+import ${package}.sysuser.dto.UserInfo;
+import ${package}.utils.IdWorker;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
