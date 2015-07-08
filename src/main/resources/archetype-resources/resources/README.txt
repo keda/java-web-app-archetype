@@ -1,0 +1,4 @@
+这个目录是用来存放与环境相关的配置信息.
+在使用maven部署或者打包时会根据选择的profile
+的配置信息覆盖src/main/resources/META-INF/spring
+中的properties文件
