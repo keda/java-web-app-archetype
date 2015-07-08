@@ -39,31 +39,11 @@
 		<property name="requestConfig" ref="requestConfig" />
 	</bean>
 	
-	<bean id="smsHttpClient" class="${package}.httpclient.SimpleHttpClient">
+	<bean id="exampleHttpClient" class="${package}.httpclient.SimpleHttpClient">
 		<constructor-arg name="client" ref="httpClientFactory" />
-		<constructor-arg name="publicKey" value="pDoAWjcpLIjH" />
-		<constructor-arg name="privateKey" value="31bc0248907141da84472c0a2139841c" />
-		<constructor-arg name="url" value="http://192.168.31.207:8083/sms/smsGateway" />
+		<constructor-arg name="publicKey" value="${server.publickey}" />
+		<constructor-arg name="privateKey" value="${server.privatekey}" />
+		<constructor-arg name="url" value="${server.api.url}" />
 	</bean>
 	
-	<bean id="expHttpClient" class="${package}.httpclient.SimpleHttpClient">
-		<constructor-arg name="client" ref="httpClientFactory" />
-		<constructor-arg name="publicKey" value="${express.publickey}" />
-		<constructor-arg name="privateKey" value="${express.privatekey}" />
-		<constructor-arg name="url" value="${express.api.url}" />
-	</bean>
-	
-	<bean id="ytoHttpClient" class="${package}.httpclient.ElecNumHttpClient">
-		<constructor-arg name="client" ref="httpClientFactory" />
-		<constructor-arg name="parternId" value="123456" />
-		<constructor-arg name="clientId" value="K10101010" />
-		<constructor-arg name="customerId" value="K10101010" />
-		<constructor-arg name="url" value="http://112.64.239.247:7800" />
-	</bean>
-	<!--
-	<bean id="taoOpenApiClient" class="${package}.httpclient.SimpleHttpClient">
-		<constructor-arg name="client" ref="httpClientFactory" />
-		<constructor-arg name="url" value="${taobao.api}" />
-	</bean>
-	 -->
 </beans>
