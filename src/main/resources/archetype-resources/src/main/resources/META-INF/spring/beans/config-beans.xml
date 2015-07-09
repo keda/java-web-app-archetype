@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xsi:schemaLocation="
+                        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <!-- Property placeholder configs -->
+    <context:property-placeholder location="classpath:META-INF/spring/*.properties"/>
+    
+    <context:component-scan base-package="${package}">
+    	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    
+    <!-- Json -->
+    <bean id="pageListJsonMapper" class="${package}.utils.OkdiMappingJackson2JsonView">
+    	<constructor-arg name="useDefault" value="false"/>
+    	<property name="propertyNamingStrategy">
+    		<bean class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy"/>
+    	</property>
+    </bean>
+    
+    <bean id="idWorker" class="${package}.utils.IdWorker"/>
+    
+    <!-- Formatter -->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+    	<property name="registerDefaultFormatters" value="false"/>
+    	<property name="formatters">
+    		<set>
+    			<bean class="org.springframework.format.number.NumberFormatAnnotationFormatterFactory"/>
+    			<bean class="${package}.utils.DateTimeFormatter">
+    				<constructor-arg name="pattern" value="${resource.dateformat}"/>
+    			</bean>
+    		</set>
+    	</property>
+    	<property name="formatterRegistrars">
+    		<set>
+    			<bean class="org.springframework.format.datetime.DateFormatterRegistrar">
+					<property name="formatter">
+						<bean class="org.springframework.format.datetime.DateFormatter" p:pattern="${resource.dateformat}" />
+					</property>
+				</bean>
+    		</set>
+    	</property>
+    </bean>
+    
+</beans>
+

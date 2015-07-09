@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="${package}.auth.dao.IAuthDao">
+	<sql id="userinfo_all_columns">
+		select id, login_id, login_pwd, user_name, phone, user_status, create_time from bas_userinfo
+	</sql>
+	
+	<select id="getUserUsePwd" resultType="${package}.sysuser.dto.UserInfo">
+		<include refid="userinfo_all_columns"/>
+		<where>
+			login_id = #{loginId} and login_pwd = #{pwd}
+		</where>
+	</select>
+	
+	<sql id="roleinfo_all_columns">
+		SELECT role.id, role.role_name, role.description, role.create_time, role.status_flag 
+		FROM bas_roleinfo
+	</sql>
+	
+	<select id="getUserRoles" resultType="${package}.auth.dto.RoleInfo">
+		<include refid="roleinfo_all_columns"/> role inner jion bas_user_role ur on(role.id = ur.role_id)
+		<where>
+			role.status_flag = '1' and ur.user_id = #{userId}
+		</where>
+	</select>
+	
+	<sql id="basmemu_all_columns">
+		SELECT memu.id, memu.page_url, memu.disp_name, memu.description, memu.menu_level, memu.parent_id, memu.menu_flag, memu.disp_flag, memu.seque_num 
+		FROM bas_memu
+	</sql>
+	
+	<select id="getAccessedMemu" resultType="${package}.auth.dto.BasMemu">
+		<include refid="basmemu_all_columns"/> memu inner join bas_role_memu rm on(memu.id = rm.menu_id)
+		<where>
+			memu.menu_flag = '1' and rm.role_id in 
+			<foreach collection="roleId" index="idx" item="roleid" open="(" close=")" separator=",">#{roleid}</foreach>
+		</where>
+	</select>
+	
+</mapper>

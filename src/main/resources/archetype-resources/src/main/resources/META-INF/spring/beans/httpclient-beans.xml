@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+	
+	<!-- HttpClient的基础配置 -->
+	<!-- 目前使用CXF来创建客户端, 后期改成HttpClient -->
+	<bean id="httpClientConnManager" class="org.apache.http.impl.conn.PoolingHttpClientConnectionManager">
+		<constructor-arg name="socketFactoryRegistry">
+			<bean class="${package}.httpclient.SSLConnectionFactory" factory-method="build" />
+		</constructor-arg>
+		<property name="maxTotal" value="200"/>
+		<property name="defaultMaxPerRoute" value="20"/>
+	</bean>
+	
+	<!-- 监控连接池 
+	<bean class="${package}.httpclient.IdleConnectionMonitorThread">
+		<constructor-arg name="connMgr" ref="httpClientConnManager"/>
+	</bean>  -->
+	
+	<bean id="requestConfigBuilder" class="org.apache.http.client.config.RequestConfig.Builder">
+		<property name="connectTimeout" value="3000"/>
+		<property name="socketTimeout" value="15000"/>
+	</bean>
+	
+	<bean id="requestConfig" factory-bean="requestConfigBuilder" factory-method="build"/>
+	
+	<bean id="httpClientFactory" class="${package}.httpclient.HttpClientFactoryBean">
+		<property name="connManager" ref="httpClientConnManager"/>
+		<property name="requestConfig" ref="requestConfig" />
+	</bean>
+	
+	<bean id="exampleHttpClient" class="${package}.httpclient.SimpleHttpClient">
+		<constructor-arg name="client" ref="httpClientFactory" />
+		<constructor-arg name="publicKey" value="${server.publickey}" />
+		<constructor-arg name="privateKey" value="${server.privatekey}" />
+		<constructor-arg name="url" value="${server.api.url}" />
+	</bean>
+	
+</beans>

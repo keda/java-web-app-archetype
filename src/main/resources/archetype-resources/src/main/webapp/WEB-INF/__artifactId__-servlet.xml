@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xsi:schemaLocation="
+                        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <!-- Annotation config -->
+    <context:annotation-config/>
+
+    <context:component-scan base-package="${package}">
+        <context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
+    </context:component-scan>
+	
+	<context:property-placeholder properties-ref="appProps"/>
+	<util:properties id="appProps" location="classpath:/META-INF/spring/config.properties"/>
+	
+	<mvc:annotation-driven content-negotiation-manager="contentNegotiationManager" conversion-service="conversionService">
+		<mvc:message-converters register-defaults="true">
+	        <bean class="org.springframework.http.converter.StringHttpMessageConverter"> 
+	            <constructor-arg value="${resource.bundle.web.encoding}" />        
+	        </bean>
+	        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" p:objectMapper-ref="pageListJsonMapper"/>
+	    </mvc:message-converters>
+	</mvc:annotation-driven>
+	
+	<mvc:resources location="/WEB-INF/app/" mapping="/resource-${version}/app/**"/>
+	<mvc:resources location="css" mapping="/resource-${version}/**"/>
+	<mvc:resources location="lib" mapping="/resource-${version}/**"/>
+	<mvc:resources location="vendor" mapping="/resource-${version}/**"/>
+	
+	<util:list id="noauthurl">
+		<value>/login.html</value>
+		<value>/login</value>
+	</util:list>
+	
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="locale"/>
+		<bean class="${package}.utils.TimerInterceptor" />
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="${package}.auth.controller.SecurityInterceptor">
+				<property name="noAuthUrl" ref="noauthurl"/>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="${package}.auth.controller.SessionInvalidException">redirect:/login.html</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- JSP view Resolver -->
+	<!-- <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:viewClass="org.springframework.web.servlet.view.JstlView" p:prefix="/WEB-INF/app/"
+          p:suffix=".jsp" p:exposeContextBeansAsAttributes="true"/> -->
+	
+	<bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+		<property name="prefix" value="/WEB-INF/app/"/>
+		<property name="suffix" value=".jsp"/>
+		<property name="templateMode" value="LEGACYHTML5"/>
+		<property name="cacheable" value="false"/>
+		<property name="characterEncoding" value="${resource.bundle.web.encoding}"/>
+	</bean>
+	
+	<bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine" p:templateResolver-ref="templateResolver"/>
+	
+	<bean id="viewResolver" class="org.thymeleaf.spring3.view.ThymeleafViewResolver" p:templateEngine-ref="templateEngine" p:characterEncoding="${resource.bundle.web.encoding}"/>
+	
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="favorParameter" value="true"/>
+		<property name="favorPathExtension" value="false"/>
+		<property name="ignoreAcceptHeader" value="true"/>
+		<property name="mediaTypes" ref="mediaTypeMap"/>
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="contentNegotiationManager" ref="contentNegotiationManager"/>
+		<property name="viewResolvers" ref="viewResolver"/>
+		<property name="defaultViews" ref="jsonView"/>
+	</bean>
+	
+	<util:map id="mediaTypeMap">
+		<entry key="html" value="text/html"/>
+        <entry key="json" value="application/json"/>
+    </util:map>
+	
+    <!-- JSON view implementation -->
+    <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" p:objectMapper-ref="pageListJsonMapper"/>
+	
+	<!-- Setup locale related interceptors and resolvers -->
+    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
+                p:paramName="locale"/>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"
+                p:cookieName="locale"/>
+	
+	<!-- <beans:bean class="org.springframework.web.servlet.resource.ResourceHttpRequestHandler">
+		<beans:property name="locations" value="css/, lib/"/>
+	</beans:bean> -->
+	
+    <!-- Setup annotation based controller handling -->
+    <!-- <beans:bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" p:cacheSeconds="0"/>
+
+    <beans:bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"
+                p:order="1" p:interceptors-ref="handlerInterceptors"/> -->
+	
+    <!-- Setup handler interceptors -->
+    <!-- <util:list id="handlerInterceptors">
+        <beans:ref bean="localeChangeInterceptor"/>
+    </util:list> -->
+
+    <!-- Content negotiation view resolver -->
+    <!-- <beans:bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver"
+                p:order="1" p:mediaTypes-ref="mediaTypeMap" p:defaultViews-ref="defaultViews"/> -->
+
+    <!-- <util:list id="defaultViews">
+        <beans:ref bean="jsonView"/>
+    </util:list> -->
+
+
+    <!-- Setup JSTL view resolver -->
+    <!-- <beans:bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+                p:viewClass="org.springframework.web.servlet.view.JstlView" p:prefix="/WEB-INF/app/"
+                p:suffix=".html" p:exposeContextBeansAsAttributes="true"/> -->
+	
+</beans>
+

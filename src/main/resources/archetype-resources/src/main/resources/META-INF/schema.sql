@@ -1,0 +1,14 @@
+DROP TABLE bas_memu;
+CREATE TABLE bas_memu (id bigint(19) NOT NULL COMMENT '主键ID', page_url varchar(100) COMMENT '页面地址,不能使用变量', disp_name varchar(50) COMMENT '显示名称', description varchar(100) COMMENT '描述', menu_level char(1) DEFAULT '0' COMMENT '菜单级别 0为一级菜单,1为二级菜单', parent_id bigint(19) COMMENT '父菜单Id', menu_flag char(1) COMMENT '菜单是否启用 0 禁用,1启用', disp_flag char(1) COMMENT '菜单是否显示 0 不显示,1 显示', seque_num smallint COMMENT '菜单排序权重,权重越小,排序越靠前', PRIMARY KEY (id)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='目录结构表';
+DROP TABLE bas_role_memu;
+CREATE TABLE bas_role_memu (role_id bigint(19) NOT NULL COMMENT '角色Id', menu_id bigint(19) NOT NULL COMMENT '菜单Id', PRIMARY KEY (role_id, menu_id), INDEX bas_role_memu_fk2 (menu_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限关联表';
+DROP TABLE bas_roleinfo;
+CREATE TABLE bas_roleinfo (id bigint(19) NOT NULL COMMENT '主键Id', role_name varchar(60) COMMENT '角色名称', description varchar(90) COMMENT '描述', create_time datetime COMMENT '创建时间', status_flag char(1) COMMENT '角色状态: 0-禁用,1-启用', PRIMARY KEY (id)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色表';
+DROP TABLE bas_user_role;
+CREATE TABLE bas_user_role (user_id bigint(19) NOT NULL COMMENT '用户Id', role_id bigint(19) NOT NULL COMMENT '角色Id', PRIMARY KEY (role_id, user_id), INDEX bas_user_role_fk1 (user_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色关联表';
+DROP TABLE bas_userinfo;
+CREATE TABLE bas_userinfo (id bigint(19) NOT NULL AUTO_INCREMENT COMMENT '主键ID', login_id varchar(120) NOT NULL COMMENT '登录名 必须为邮箱号', login_pwd varchar(50) NOT NULL COMMENT '登录密码', user_name varchar(60) COMMENT '真实姓名', phone varchar(20) COMMENT '手机号', user_status smallint(5) DEFAULT '0' COMMENT '账户状态: 0-禁用,1-启用', create_time timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间', PRIMARY KEY (id)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+ALTER TABLE bas_role_memu ADD CONSTRAINT bas_role_memu_fk2 FOREIGN KEY (menu_id) REFERENCES bas_memu (id) ;
+ALTER TABLE bas_role_memu ADD CONSTRAINT bas_role_memu_fk1 FOREIGN KEY (role_id) REFERENCES bas_roleinfo (id);
+ALTER TABLE bas_user_role ADD CONSTRAINT bas_user_role_fk2 FOREIGN KEY (role_id) REFERENCES bas_roleinfo (id) ;
+ALTER TABLE bas_user_role ADD CONSTRAINT bas_user_role_fk1 FOREIGN KEY (user_id) REFERENCES bas_userinfo (id);

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="${package}.sysuser.dao.ISysUserDao">
+	<sql id="userinfo_all_columns">
+		select id, login_id, login_pwd, user_name, phone, user_status, create_time from bas_userinfo
+	</sql>
+	
+	<select id="listAllUser" resultType="${package}.sysuser.dto.UserInfo">
+		<include refid="userinfo_all_columns"/>
+	</select>
+	
+	<select id="getUserByName" resultType="${package}.sysuser.dto.UserInfo">
+		<include refid="userinfo_all_columns"/>
+		<where>
+			user_name = #{username}
+		</where>
+	</select>
+	
+	<select id="getUserById" resultType="${package}.sysuser.dto.UserInfo">
+		<include refid="userinfo_all_columns"/>
+		<where>
+			id = #{userId}
+		</where>
+	</select>
+	
+	<select id="queryUserByName" resultType="${package}.sysuser.dto.UserInfo">
+		<include refid="userinfo_all_columns"/>
+		<where>
+			user_name like #{username}
+		</where>
+	</select>
+	
+	<insert id="insertNewUser" parameterType="${package}.sysuser.dto.UserInfo" keyProperty="id">
+		insert into bas_userinfo(id, login_id, login_pwd, user_name, phone, user_status, create_time)
+		value(#{user.id}, #{user.loginId}, #{user.loginPwd}, #{user.userName}, #{user.phone}, #{user.userStatus}, #{user.createTime});
+	</insert>
+	
+	<update id="updateUser" parameterType="${package}.sysuser.dto.UserInfo">
+		update bas_userinfo set user_name = #{user.userName}, phone = #{user.phone}, user_status = #{user.userStatus}, create_time = #{user.createTime}
+		where id = #{user.id}
+	</update>
+	
+</mapper>
