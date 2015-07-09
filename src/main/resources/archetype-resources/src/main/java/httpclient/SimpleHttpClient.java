@@ -291,7 +291,7 @@ public class SimpleHttpClient {
 		while (keys.hasNext()) {
 			String key = keys.next();
 			
-			plist.add(new BasicNameValuePair(key.toLowerCase(), String.valueOf(p.get(key))));
+			plist.add(new BasicNameValuePair(key, String.valueOf(p.get(key))));
 		}
 		
 		return plist;
