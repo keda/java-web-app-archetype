@@ -25,5 +25,8 @@
     
     <!-- Httpclient related beans -->
     <beans:import resource="httpclient-beans.xml"/>
+
+    <!-- cache related beans -->
+    <beans:import resource="cache-beans.xml"/>
 </beans:beans>
 
