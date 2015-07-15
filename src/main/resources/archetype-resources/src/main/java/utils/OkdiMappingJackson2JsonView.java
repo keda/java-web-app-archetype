@@ -1,16 +1,10 @@
 package ${package}.utils;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator.Feature;
-import com.fasterxml.jackson.databind.SerializationConfig;
 import com.github.miemiedev.mybatis.paginator.jackson2.PageListJsonMapper;
 
 public class OkdiMappingJackson2JsonView extends PageListJsonMapper {
@@ -27,11 +21,7 @@ public class OkdiMappingJackson2JsonView extends PageListJsonMapper {
 	public void afterPropertiesSet() throws Exception {
 		
 		if(!useDefault) {
-			JsonFactory jsonFactory = super.getFactory();
-			jsonFactory.configure(Feature.WRITE_NUMBERS_AS_STRINGS, true);
-			
-			logger.info("===自定义JsonFactory::[{} = true]", "Feature.WRITE_NUMBERS_AS_STRINGS");
-			
+			JacksonConfig.globalConfig(this);
 		}
 		
 	}

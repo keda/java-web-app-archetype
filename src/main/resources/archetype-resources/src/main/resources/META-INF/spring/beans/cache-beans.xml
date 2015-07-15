@@ -12,6 +12,11 @@
 	
 	<bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager"
 		c:template-ref="redisTemplate">
+		<property name="defaultExpiration" value="#{10*60}"/>
+		<property name="cachePrefix">
+			<bean class="org.springframework.data.redis.cache.DefaultRedisCachePrefix" c:delimiter="_"/>
+		</property>
+		<property name="usePrefix" value="true"/>
 	</bean>
 
 </beans>

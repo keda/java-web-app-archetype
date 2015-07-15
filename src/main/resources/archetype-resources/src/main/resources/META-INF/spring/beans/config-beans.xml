@@ -14,17 +14,14 @@
     <!-- Property placeholder configs -->
     <context:property-placeholder location="classpath:META-INF/spring/*.properties"/>
     
-    <context:component-scan base-package="${package}">
-    	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    <context:component-scan base-package="${package}" use-default-filters="false">
+    	<context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
     </context:component-scan>
     
-    <!-- Json -->
-    <bean id="pageListJsonMapper" class="${package}.utils.OkdiMappingJackson2JsonView">
-    	<constructor-arg name="useDefault" value="false"/>
-    	<property name="propertyNamingStrategy">
-    		<bean class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy"/>
-    	</property>
-    </bean>
+    <!-- json工具 -->
+    <bean id="objectMapper" class="${package}.utils.OkdiMappingJackson" c:useDefault="false"/>
     
     <bean id="idWorker" class="${package}.utils.IdWorker"/>
     

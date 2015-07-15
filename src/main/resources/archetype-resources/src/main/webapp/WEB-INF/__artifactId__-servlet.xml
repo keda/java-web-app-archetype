@@ -16,7 +16,7 @@
     <!-- Annotation config -->
     <context:annotation-config/>
 
-    <context:component-scan base-package="${package}">
+    <context:component-scan base-package="${package}" use-default-filters="false">
         <context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
     </context:component-scan>
 	
@@ -32,10 +32,10 @@
 	    </mvc:message-converters>
 	</mvc:annotation-driven>
 	
-	<mvc:resources location="/WEB-INF/app/" mapping="/resource-${version}/app/**"/>
-	<mvc:resources location="css" mapping="/resource-${version}/**"/>
-	<mvc:resources location="lib" mapping="/resource-${version}/**"/>
-	<mvc:resources location="vendor" mapping="/resource-${version}/**"/>
+	<mvc:resources location="/WEB-INF/app/" mapping="/resource-${appver}/app/**"/>
+	<mvc:resources location="css" mapping="/resource-${appver}/**"/>
+	<mvc:resources location="lib" mapping="/resource-${appver}/**"/>
+	<mvc:resources location="vendor" mapping="/resource-${appver}/**"/>
 	
 	<util:list id="noauthurl">
 		<value>/login.html</value>
@@ -97,6 +97,12 @@
     </util:map>
 	
     <!-- JSON view implementation -->
+    <!-- JSON view implementation -->
+    <bean id="pageListJsonMapper" class="${package}.utils.OkdiMappingJackson2JsonView" c:useDefault="false">
+    	<property name="propertyNamingStrategy">
+    		<bean class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy"/>
+    	</property>
+    </bean>
     <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" p:objectMapper-ref="pageListJsonMapper"/>
 	
 	<!-- Setup locale related interceptors and resolvers -->
