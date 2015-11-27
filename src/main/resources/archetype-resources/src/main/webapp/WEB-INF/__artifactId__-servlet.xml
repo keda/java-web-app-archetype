@@ -97,8 +97,8 @@
     </util:map>
 	
     <!-- JSON view implementation -->
-    <!-- JSON view implementation -->
-    <bean id="pageListJsonMapper" class="${package}.utils.OkdiMappingJackson2JsonView" c:useDefault="false">
+    <bean id="pageListJsonMapper" class="${package}.utils.OkdiMappingJackson2JsonView">
+    	<constructor-arg name="useDefault" value="false"/>
     	<property name="propertyNamingStrategy">
     		<bean class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy"/>
     	</property>
