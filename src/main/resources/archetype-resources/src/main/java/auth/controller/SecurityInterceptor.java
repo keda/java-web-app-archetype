@@ -19,7 +19,7 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter {
 	
 	private final String STATIC_RESOURCES = "/resource-";
 	
-	@Value("${version}") private String appVersion;
+	@Value("${appver}") private String appVersion;
 	
 	private List<String> noAuthUrl;
 	
